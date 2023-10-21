@@ -2,9 +2,13 @@
 <head> </head>
 <body>
 <input type="file" id="file-input" />
-<p id="status">Please select a file</p>
+<p id="status">Please select a file to upload</p>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        getObjectList();
+    }, false);
+
     (() => {
         document.getElementById("file-input").onchange = () => {
             const files = document.getElementById("file-input").files;
@@ -41,6 +45,7 @@
                 if (xhr.status === 200) {
                     console.log(`Upload succeed to: ${url}`);
                     alert(`Upload succeed to: ${url}`);
+                    getObjectList();
                 } else {
                     alert("Could not upload file.");
                 }
@@ -48,6 +53,86 @@
         };
         xhr.send(file);
     };
+
+    const getObjectList = () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open(
+            "GET",
+            `http://localhost:3000/getObjectList`
+        );
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    document.getElementById('objectList').innerHTML=xhr.responseText;
+                } else {
+                    alert("Could not get object list");
+                }
+            }
+        };
+        xhr.send();
+    };
+    const downloadObject = (key)=>{
+        const xhr = new XMLHttpRequest();
+        xhr.open(
+            "GET",
+            `http://localhost:3000/downloadObject?key=${key}`
+        );
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert(`Download ${key} successfully`);
+                } else {
+                    alert("Could not download "+ key);
+                }
+            }
+        };
+        xhr.send();
+    }
+    const deleteObject = (key)=>{
+        const xhr = new XMLHttpRequest();
+        xhr.open(
+            "DELETE",
+            `http://localhost:3000/deleteObject?key=${key}`
+        );
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log(`Delete Object ${key} successfully`);
+                    getObjectList();
+                } else {
+                    alert("Could not delete "+ key);
+                }
+            }
+        };
+        xhr.send();
+    }
+    const deleteAllObject = ()=>{
+        const xhr = new XMLHttpRequest();
+        xhr.open(
+            "DELETE",
+            `http://localhost:3000/deleteAllObject`
+        );
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    console.log(`Delete All Object successfully`);
+                    getObjectList();
+                } else {
+                    alert("Could not delete all");
+                }
+            }
+        };
+        xhr.send();
+    }
 </script>
+<br>
+<br>
+S3 Object List
+<br>
+<br>
+<div id="objectList"></div>
+<br>
+<br>
+<input type="button" value="Delete ALL Object" onclick="deleteAllObject()">
 </body>
 </html>

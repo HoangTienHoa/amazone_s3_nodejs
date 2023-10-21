@@ -22,11 +22,7 @@ const editBucketCORS = () =>
                 CORSRules: [
                     {
                         AllowedHeaders: ["*"],
-                        AllowedMethods: ["PUT", "POST", "DELETE"],
-                        AllowedOrigins: ["*"]
-                    },
-                    {
-                        AllowedMethods: ["GET"],
+                        AllowedMethods: ["GET","PUT", "POST", "DELETE"],
                         AllowedOrigins: ["*"]
                     }
                 ]
@@ -40,9 +36,10 @@ const editBucketCORS = () =>
 
 s3.createBucket(params, (err, data) => {
     if (err) {
-        console.log(err, err.stack);
+        console.log(err);
     }else {
         console.log(data);
+        console.log("Create Bucket Successfully");
         editBucketCORS();
     }
 });

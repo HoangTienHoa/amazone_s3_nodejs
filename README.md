@@ -1,5 +1,5 @@
 # amazone_s3_nodejs
-Update image to Amazone S3 using NodeJS
+Upload, Download, Delete any file to Amazone S3 using NodeJS
 
 # Run
     #1 Create Bucket if any.
@@ -8,5 +8,6 @@ Update image to Amazone S3 using NodeJS
         node directUpload.js
     #3 Upload a file from Client Side to S3
         node uploadWithSignedURL.js
+        feature: Upload, Download, Delete, Delete All Object
 # Ref
     https://viblo.asia/p/nodejs-upload-files-to-aws-GrLZDy9Vlk0
